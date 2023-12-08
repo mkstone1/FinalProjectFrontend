@@ -42,9 +42,8 @@ const styles = StyleSheet.create({
   },
   headline: {
     color: Colors.wrongAnswerText,
-    fontSize: 27,
+    fontSize: 17,
     fontWeight: "bold",
-
   },
   circle: {
     height: 30,
@@ -63,7 +62,7 @@ const styles = StyleSheet.create({
     color: Colors.textPrimaryColor,
     justifyContent: "center",
     alignItems: "center",
-    paddingRight:3,
+    paddingRight: 3,
   },
   checkedText: {
     color: Colors.textPrimaryColor,

@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
   },
   view: {
     alignItems: "center",
+    flex:1,
     width: "90%",
     borderRadius: 10,
     paddingBottom: 30,

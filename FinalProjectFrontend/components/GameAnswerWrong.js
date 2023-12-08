@@ -2,20 +2,15 @@ import React, { useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Colors } from "../constants/styling";
 
-function Answer({ cardToRender  }) {
-  const [isChecked, setIsChecked] = useState(false);
-
-  function handlePress() {
-    setIsChecked(!isChecked);
-  }
+function GameAnswerWrong({ wrongAnswer, onPress, wrongChecked }) {
 
   return (
-    <TouchableOpacity onPress={handlePress}>
+    <TouchableOpacity onPress={onPress}>
       <View style={styles.answer}>
-        <Text style={styles.headline}>{cardToRender.answer}</Text>
-        {isChecked ? (
+        <Text style={styles.headline}>{wrongAnswer}</Text>
+        {wrongChecked ? (
           <View style={styles.checkedCircle}>
-            <Text style={styles.checkedText}>1</Text>
+            <Text style={styles.checkedText}>-2</Text>
           </View>
         ) : (
           <Text style={styles.circle}></Text>
@@ -25,7 +20,7 @@ function Answer({ cardToRender  }) {
   );
 }
 
-export default Answer;
+export default GameAnswerWrong;
 
 const styles = StyleSheet.create({
   answer: {
@@ -40,11 +35,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headline: {
-    color: Colors.textPrimaryColor,
+    color: Colors.wrongAnswerText,
     fontSize: 17,
     fontWeight: "bold",
-    flexWrap: "wrap",
-    width: "80%"
   },
   circle: {
     height: 30,
@@ -59,15 +52,14 @@ const styles = StyleSheet.create({
     width: 30,
     borderRadius: 15,
     marginRight: 15,
-    backgroundColor: Colors.circleGreenCheckedColor,
+    backgroundColor: Colors.wrongAnswerText,
     color: Colors.textPrimaryColor,
     justifyContent: "center",
     alignItems: "center",
+    paddingRight: 3,
   },
   checkedText: {
-    color : Colors.textPrimaryColor,
+    color: Colors.textPrimaryColor,
     fontSize: 20,
-
-  }
+  },
 });
-

@@ -54,3 +54,16 @@ export async function postQuickStartGame() {
   const gameId = await gameInit.json();
   return gameId;
 }
+
+export async function patchGameAfterRound(game) {
+  const response = await fetch(
+    "https://finalprojectbackend.azurewebsites.net/api/games?code=0pUSZhggjkGL9ZlM0WhTDNKudH5HfEuAgFmgPf2w-EliAzFuPq6vHQ==",
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(game),
+    }
+  );
+}

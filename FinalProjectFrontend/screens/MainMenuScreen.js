@@ -21,7 +21,7 @@ function MainMenuScreen({ navigation }) {
       <Text style={styles.headline}>Mems-HG</Text>
       <View style={styles.view}>
         <MainMenuTile
-          text={"Hurtig Start\n2 hold til 10 point"}
+          text={"Hurtig Start\n2 hold til 20 point"}
           onPress={pressHandlerQuickStart}
         />
         <MainMenuTile text={"Start med opsætning"} topMargin={true} />

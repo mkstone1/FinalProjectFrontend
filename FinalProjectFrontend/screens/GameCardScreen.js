@@ -1,12 +1,14 @@
 import { ActivityIndicator, View, StyleSheet } from "react-native";
 
 import { useEffect, useState } from "react";
-import { getCardWithCardIdFromCosmos } from "../util/ApiCalls";
+import { getCardWithCardIdFromCosmos, getGameFromGameId } from "../util/ApiCalls";
 import Card from "../components/Card";
 import GameCard from "../components/GameCard";
+import { useFocusEffect } from "@react-navigation/native";
 
 function GameCardScreen({route, navigation}) {
     const [card, setCard] = useState([]);
+    const [game, setGame] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const gameId = route.params.gameId;
@@ -14,14 +16,19 @@ function GameCardScreen({route, navigation}) {
     const cardId = route.params.cardId;
 
 
-    async function getCard() {
+    async function getData() {
       const card = await getCardWithCardIdFromCosmos(cardId);
+      const game = await getGameFromGameId(gameId)
       setCard(card);
+      setGame(game);
       setLoading(false);
     }
+
     useEffect(() => {
-      getCard();
+      getData();
     }, []);
+
+
   
     if (loading) {
       return (
@@ -31,7 +38,7 @@ function GameCardScreen({route, navigation}) {
       );
     }
 
-    return <GameCard card={card} />;
+    return <GameCard card={card} game={game} />;
   }
   
  

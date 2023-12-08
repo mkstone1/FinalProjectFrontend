@@ -67,6 +67,7 @@ function GameCardSelectionScreen({route, navigation}) {
       fontWeight: "bold",
     },
     view: {
+      flex:1,
       alignItems: "center",
       width: "90%",
       borderRadius: 10,

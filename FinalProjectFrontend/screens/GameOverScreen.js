@@ -7,7 +7,7 @@ import TeamScores from "../components/TeamScores.js";
 import React from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
-function GameScoreScreen({ route, navigation }) {
+function GameOverScreen({route, navigation}) {
   const [game, setGame] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -20,9 +20,7 @@ function GameScoreScreen({ route, navigation }) {
   }
 
   async function handlePress() {
-    navigation.navigate("GameCategorySelectionScreen", {
-      gameId: gameId,
-    });
+    navigation.navigate("MainMenuScreen");
   }
 
   useEffect(() => {
@@ -46,18 +44,18 @@ function GameScoreScreen({ route, navigation }) {
   return (
     <View style={styles.mainView}>
       <View style={styles.view}>
-        <Text style={styles.headline}>Scoren er:</Text>
+        <Text style={styles.headline}>Spillet er over</Text>
+        <Text style={styles.headline}>Scoren er: </Text>
         <View style={styles.score}>
-          <TeamScores scores={game.teamScore}  />
+          <TeamScores scores={game.teamScore} />
         </View>
-        <Text style={styles.currentTeam}>Det er hold {game.currentTeam} tur </Text>
-        <BlueButton text={"Start Næste Runde"} onPress={handlePress} />
+        <BlueButton text={"Afslut"} onPress={handlePress} />
       </View>
     </View>
   );
 }
 
-export default GameScoreScreen;
+export default GameOverScreen;
 const styles = StyleSheet.create({
   mainView: {
     marginTop: 25,
@@ -77,15 +75,14 @@ const styles = StyleSheet.create({
     height: "95%",
     borderRadius: 10,
     paddingBottom: 30,
-   
 
     backgroundColor: Colors.backgroundSecondaryColor,
   },
   score: {
     marginBottom: 50,
   },
-  currentTeam:{
+  currentTeam: {
     color: Colors.textPrimaryColor,
-    fontSize: 24
-  }
+    fontSize: 24,
+  },
 });
