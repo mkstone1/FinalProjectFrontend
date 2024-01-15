@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
     width: "80%",
     borderRadius: 10,
     paddingBottom: 30,
-
     backgroundColor: Colors.backgroundSecondaryColor,
   },
 });

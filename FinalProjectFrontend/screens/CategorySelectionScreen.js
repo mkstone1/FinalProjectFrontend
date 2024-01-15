@@ -40,6 +40,8 @@ function CategorySelectionScreen({ route, navigation }) {
     });
   }
 
+  
+
   if (loading) {
     return (
       <View style={styles.mainView}>

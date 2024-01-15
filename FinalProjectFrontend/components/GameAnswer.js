@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Colors } from "../constants/styling";
 
-function GameAnswer({ cardToRender, incrementScore }){
+function GameAnswer({ cardToRender, incrementScore, isCheckedBefore }){
     const [isChecked, setIsChecked] = useState(false);
 
+    useEffect(()=> {
+      setIsChecked(isCheckedBefore)
+    },[])
+
     function handlePress() {
+  
         setIsChecked((prevChecked) => {
             const newChecked = !prevChecked;
-            incrementScore(newChecked);
+            incrementScore(newChecked, cardToRender);
             return newChecked;
           });
     }

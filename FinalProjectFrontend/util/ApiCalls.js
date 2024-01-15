@@ -55,7 +55,21 @@ export async function postQuickStartGame() {
   return gameId;
 }
 
-export async function patchGameAfterRound(game) {
+export async function postQuickStartGameRandom() {
+  const gameInit = await fetch(
+    "https://finalprojectbackend.azurewebsites.net/api/games/QuickStartRandom?code=KKiSLD18KkRrRAZb_T2q6vVi0T1WrvPns6K0vh4kFc3rAzFur2nvKg==",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const gameId = await gameInit.json();
+  return gameId;
+}
+
+export async function putGameAfterRound(game) {
   const response = await fetch(
     "https://finalprojectbackend.azurewebsites.net/api/games?code=0pUSZhggjkGL9ZlM0WhTDNKudH5HfEuAgFmgPf2w-EliAzFuPq6vHQ==",
     {
@@ -66,4 +80,27 @@ export async function patchGameAfterRound(game) {
       body: JSON.stringify(game),
     }
   );
+}
+
+export async function postGame(gameData) {
+  const response = await fetch(
+    "https://finalprojectbackend.azurewebsites.net/api/games?code=EBMfzj1YwDMO3T9yMGmFaauNgINuOW3SjMuFRMcxkR9cAzFu6GOzAw==",
+    {
+      method: "Post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(gameData),
+    }
+  );
+  const gameId = await response.json();
+  return gameId;
+}
+
+export async function getRandomCardsFromCosmos() {
+  const response = await fetch(
+    "https://finalprojectbackend.azurewebsites.net/api/cards/Random?code=NCuiwgGHPjvCMhCfE0faXhJ_ASFcW8IhNoW86sXSdYi2AzFuBwDy2A=="
+  );
+  const cardsFromDb = await response.json();
+  return cardsFromDb;
 }

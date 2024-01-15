@@ -19,10 +19,17 @@ function GameScoreScreen({ route, navigation }) {
     setLoading(false);
   }
 
-  async function handlePress() {
+  async function handleStartNewRound() {
+    if(game.withRandomCards){
+    navigation.navigate("GameRandomCardSelectionScreen", {
+      gameId: gameId,
+    });
+  }
+  else{
     navigation.navigate("GameCategorySelectionScreen", {
       gameId: gameId,
     });
+  }
   }
 
   useEffect(() => {
@@ -49,9 +56,12 @@ function GameScoreScreen({ route, navigation }) {
         <Text style={styles.headline}>Scoren er:</Text>
         <View style={styles.score}>
           <TeamScores scores={game.teamScore}  />
+          
         </View>
+        <Text style={styles.currentTeam}>Der spilles til {game.maxScore}</Text>
         <Text style={styles.currentTeam}>Det er hold {game.currentTeam} tur </Text>
-        <BlueButton text={"Start Næste Runde"} onPress={handlePress} />
+        
+        <BlueButton text={"Start Næste Runde"} onPress={handleStartNewRound} />
       </View>
     </View>
   );
@@ -86,6 +96,7 @@ const styles = StyleSheet.create({
   },
   currentTeam:{
     color: Colors.textPrimaryColor,
-    fontSize: 24
+    fontSize: 24,
+    marginBottom:10,
   }
 });

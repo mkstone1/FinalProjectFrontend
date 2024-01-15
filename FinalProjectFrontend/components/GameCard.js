@@ -6,17 +6,60 @@ import { useState } from "react";
 import BlueButtonForGameCard from "./BlueButtonForGameCard";
 import Timer from "./Timer";
 import GameAnswer from "./GameAnswer";
-import { patchGameAfterRound } from "../util/ApiCalls";
 import { useNavigation } from "@react-navigation/native";
-import EndRountButton from "./EndRoundButton";
+import EndRoundButton from "./EndRoundButton";
 
 function GameCard({ card, game }) {
   const navigate = useNavigation();
   const [roundStarted, setRoundStarted] = useState(false);
   const [score, setScore] = useState(0);
   const [wrongChecked, setWrongChecked] = useState(false);
+  const [selectedAnswers, setSelectedAnswers] = useState([]);
 
   const activeCard = card[0];
+
+  async function onTimerEnd() {
+    const answersWithCheckedStatus = activeCard.answers.map((answer) => ({
+      ...answer,
+      checked: selectedAnswers.some(
+        (selectedAnswer) => selectedAnswer.id === answer.id
+      ),
+    }));
+
+    navigate.navigate("GameConfirmScoreScreen", {
+      game: game,
+      selectedAnswers: answersWithCheckedStatus,
+      isWrongChecked: wrongChecked,
+      activeCard: activeCard,
+      prevScore: score,
+    });
+  }
+
+  function onRoundStart() {
+    setRoundStarted(true);
+  }
+
+  async function incrementScore(isChecked, answer) {
+    setScore((prevScore) => (isChecked ? prevScore + 1 : prevScore - 1));
+    if (isChecked) {
+      setSelectedAnswers((prevAnswers) => [...prevAnswers, answer]);
+    } else {
+      setSelectedAnswers((prevAnswers) =>
+        prevAnswers.filter((prevAnswer) => prevAnswer !== answer)
+      );
+    }
+  }
+
+  async function handleWrongChecked() {
+    setWrongChecked((prevWrongChecked) => {
+      const newWrongChecked = !prevWrongChecked;
+      setScore((prevScore) =>
+        newWrongChecked ? prevScore - 2 : prevScore + 2
+      );
+
+      return newWrongChecked;
+    });
+  }
 
   function renderAnswer(cardToRender) {
     return (
@@ -27,76 +70,18 @@ function GameCard({ card, game }) {
     );
   }
 
-  async function onTimerEnd() {
-    let gameOver = false;
-    const updatedTeamScore = game.teamScore.map((team) => {
-      if (team.name === game.currentTeam) {
-        const newScore = team.score + score;
-        if (newScore >= game.maxScore) {
-          gameOver = true;
-        }
-        return { ...team, score: team.score + score };
-      } else {
-        return { ...team };
-      }
-    });
-
-    game.teamScore = updatedTeamScore;
-
-    if (game.currentTeam == "Hold 1") {
-      game.currentTeam = "Hold 2";
-    } else {
-      game.currentTeam = "Hold 1";
-    }
-
-    await patchGameAfterRound(game);
-
-    if (!gameOver) {
-      navigate.navigate("GameScoreScreen", {
-        gameId: game.id,
-      });
-    } else {
-      navigate.navigate("GameOverScreen", {
-        gameId: game.id,
-      });
-    }
-  }
-
-  function onRoundStart() {
-    setRoundStarted(true);
-  }
-
-  async function incrementScore(isChecked) {
-    setScore((prevScore) => (isChecked ? prevScore + 1 : prevScore - 1));
-  }
-
-  async function handleWrongChecked() {
-    setWrongChecked((prevWrongChecked) => {
-      const newWrongChecked = !prevWrongChecked;
-
-      // Toggle between subtracting and adding 2 to the score
-      setScore((prevScore) =>
-        newWrongChecked ? prevScore - 2 : prevScore + 2
-      );
-
-      return newWrongChecked;
-    });
-  }
-
   return (
     <View style={styles.mainView}>
-         <CardHeadLine
+      <CardHeadLine
         category={activeCard.categoryId}
         cardTitle={activeCard.title}
       />
-      <EndRountButton text={"Afslut Runde"} onPress={onTimerEnd} />
+      <EndRoundButton text={"Afslut Runde"} onPress={onTimerEnd} />
       {!roundStarted ? (
         <BlueButtonForGameCard text={"Start Runde"} onPress={onRoundStart} />
       ) : (
         <Timer onTimerEnd={onTimerEnd} roundTime={game.roundLength} />
       )}
-
- 
 
       <View style={styles.allAnswers}>
         <GameAnswerWrong
@@ -127,6 +112,7 @@ const styles = StyleSheet.create({
     width: "90%",
     borderRadius: 10,
     paddingVertical: 15,
+    marginTop: 15,
     backgroundColor: Colors.backgroundSecondaryColor,
   },
   textStyle: {

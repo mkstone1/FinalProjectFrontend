@@ -5,7 +5,7 @@ import {
   } from "react-native";
   import { Colors } from "../constants/styling.js";
 
-function EndRountButton({text, onPress}){
+function EndRoundButton({text, onPress}){
 return (
     <Pressable
       style={({ pressed }) =>
@@ -18,7 +18,7 @@ return (
   );
 }
 
-export default EndRountButton;
+export default EndRoundButton;
 
 const styles = StyleSheet.create({
   textStyle: {

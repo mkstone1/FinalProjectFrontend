@@ -11,6 +11,10 @@ import GameCardSelectionScreen from "./screens/GameCardSelectionScreen.js";
 import GameScoreScreen from "./screens/GameScoreScreen.js";
 import GameCardScreen from "./screens/GameCardScreen.js";
 import GameOverScreen from "./screens/GameOverScreen.js";
+import GameOptionsScreen from "./screens/GameOptionsScreen.js";
+import GameRandomCardSelectionScreen from "./screens/GameRandomCardSelectionScreen.js";
+import GameConfirmScoreScreen from "./screens/GameConfirmScoreScreen.js";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -71,6 +75,22 @@ export default function App() {
           <Stack.Screen
           name="GameOverScreen"
           component={GameOverScreen}
+          options={{ title: "" }}
+        />
+
+        <Stack.Screen
+          name="GameOptionsScreen"
+          component={GameOptionsScreen}
+          options={{ title: "" }}
+        />
+          <Stack.Screen
+          name="GameRandomCardSelectionScreen"
+          component={GameRandomCardSelectionScreen}
+          options={{ title: "" }}
+        />
+          <Stack.Screen
+          name="GameConfirmScoreScreen"
+          component={GameConfirmScoreScreen}
           options={{ title: "" }}
         />
       </Stack.Navigator>
